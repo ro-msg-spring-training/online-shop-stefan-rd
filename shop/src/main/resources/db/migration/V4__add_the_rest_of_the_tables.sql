@@ -1,17 +1,11 @@
-create table "address"
-(
-    "id" int primary key auto_increment,
-    "country" varchar(20),
-    "city" varchar(20),
-    "county" varchar(20),
-    "street_address" varchar(50)
-);
-
 create table "location"
 (
     "id" int primary key auto_increment,
     "name" varchar(50) unique,
-    "address_id" int references "address"("id")
+    "country" varchar(20),
+    "city" varchar(20),
+    "county" varchar(20),
+    "street_address" varchar(50)
 );
 
 create table "stock"
@@ -36,7 +30,10 @@ create table "order"
     "shipped_from" int references "location"("id"),
     "customer_id" int references "customer"("id"),
     "created_at" timestamp,
-    "address_id" int references "address"("id")
+    "country" varchar(20),
+    "city" varchar(20),
+    "county" varchar(20),
+    "street_address" varchar(50)
 );
 
 create table "order_detail"

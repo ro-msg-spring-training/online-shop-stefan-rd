@@ -7,5 +7,5 @@ create table "product"
     "weight" double,
     "category_id" int references "product_category"("id"),
     "supplier_id" int references "supplier"("id"),
-    "image_Url" varchar(500)
+    "image_url" varchar(500)
 );
