@@ -18,6 +18,8 @@ public class Supplier extends BaseEntity<Integer>
     @Column(name = "name", unique = true, length = 50)
     private String name;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "supplier", orphanRemoval = true)
     private Set<Product> products;

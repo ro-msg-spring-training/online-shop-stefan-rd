@@ -19,7 +19,7 @@ public class OrderDetail extends BaseEntity<Integer>
 
     @ManyToOne
     @JoinColumn(name="order_id")
-    private Order order;
+    private Order correspondingOrder;
 
     @ManyToOne
     @JoinColumn(name="product_id")

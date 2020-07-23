@@ -13,7 +13,7 @@ import java.util.Set;
 @ToString(callSuper = true)
 @Builder
 @Entity
-@Table(name = "order")
+@Table(name = "customer_order")
 public class Order extends BaseEntity<Integer>
 {
     @Column(name = "created_at")
@@ -37,7 +37,7 @@ public class Order extends BaseEntity<Integer>
     private Customer customer;
 
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "order", orphanRemoval = true)
+            mappedBy = "correspondingOrder", orphanRemoval = true)
     private Set<OrderDetail> orderDetails;
 
 }

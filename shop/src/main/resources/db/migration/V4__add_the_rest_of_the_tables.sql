@@ -24,7 +24,7 @@ create table "revenue"
     "sum" decimal
 );
 
-create table "order"
+create table "customer_order"
 (
     "id" int primary key auto_increment,
     "shipped_from" int references "location"("id"),
@@ -39,7 +39,7 @@ create table "order"
 create table "order_detail"
 (
     "id" int primary key auto_increment,
-    "order_id" int references "order"("id"),
+    "order_id" int references "customer_order"("id"),
     "product_id" int references "product"("id"),
     "quantity" int
 )

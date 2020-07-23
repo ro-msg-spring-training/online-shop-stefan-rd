@@ -31,20 +31,32 @@ public class Product extends BaseEntity<Integer>
     @Column(name = "image_Url", length = 50)
     private String imageUrl;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name="category_id")
     private ProductCategory productCategory;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name="supplier_id")
     private Supplier supplier;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "product", orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, /*cascade = CascadeType.ALL,*/
+            cascade = CascadeType.ALL,
+            mappedBy = "product"/*, orphanRemoval = true*/)
     private Set<Stock> stocks;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "product", orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, /*cascade = CascadeType.ALL,*/
+            cascade = CascadeType.ALL,
+            mappedBy = "product"/*, orphanRemoval = true*/)
     private Set<OrderDetail> orderDetails;
+
+
 
 }

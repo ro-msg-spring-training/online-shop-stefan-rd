@@ -19,27 +19,23 @@ import java.util.Set;
 @SpringBootApplication
 public class ShopApplication {
 
-	@Autowired
-	ProductRepository rep1;
-
-	@Autowired
-	ProductCategoryRepository rep2;
-
 	public static void main(String[] args) {
 		SpringApplication.run(ShopApplication.class, args);
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
-		System.out.println("hello world, I have just started up");
-		/*ProductCategory pc = ProductCategory.builder()
-				.description("sss")
-				.name("sddsd")
+		/*System.out.println("hello world, I have just started up");
+		ProductCategory pc1 = ProductCategory.builder().name("aa").build();
+		Product p1 = Product.builder().name("a")
 				.build();
-		Product p = Product.builder().name("aaa").build();
-		p.setProductCategory(pc);
-		repo.save(p);*/
+		p1.setProductCategory(pc1);
+		rep1.save(p1);
 
+		Product p2 = Product.builder().name("b")
+				.build();
+		p2.setProductCategory(pc1);
+		rep1.save(p2);*/
 
 	}
 }
