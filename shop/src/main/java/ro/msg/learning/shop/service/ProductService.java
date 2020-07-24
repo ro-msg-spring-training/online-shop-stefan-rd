@@ -1,18 +1,20 @@
 package ro.msg.learning.shop.service;
 
-import ro.msg.learning.shop.model.Product;
+import ro.msg.learning.shop.dto.ProductDto;
+import ro.msg.learning.shop.dto.ProductWithCategoryDto;
+import ro.msg.learning.shop.exception.ShopException;
 
 import java.util.List;
 
 public interface ProductService
 {
-    List<Product> getAllProducts();
+    List<ProductWithCategoryDto> getAllProducts();
 
-    Product getProduct(int productId);
+    ProductWithCategoryDto getProduct(int productId) throws ShopException;
 
-    Product saveProduct(Product newProduct, int categoryId);
+    ProductDto saveProduct(ProductDto newProduct) throws ShopException;
 
-    Product updateProduct(int productId, Product product);
+    ProductDto updateProduct(int productId, ProductDto product) throws ShopException;
 
     void deleteProduct(int productId);
 

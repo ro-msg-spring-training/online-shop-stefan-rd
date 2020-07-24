@@ -11,16 +11,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder
-public class ProductWithCategoryDto implements Serializable
+public class LocationDto implements Serializable
 {
     private int id;
     private String name;
-    private String description;
-    private String price;
-    private String weight;
-    private String imageUrl;
-
-    private int categoryId;
-    private String categoryName;
-    private String categoryDescription;
+    private AddressDto address;
 }

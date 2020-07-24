@@ -5,6 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.msg.learning.shop.converter.ProductMapper;
+import ro.msg.learning.shop.converter.ProductWithCategoryMapper;
+import ro.msg.learning.shop.dto.ProductDto;
+import ro.msg.learning.shop.dto.ProductWithCategoryDto;
+import ro.msg.learning.shop.exception.ShopException;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.repository.ProductCategoryRepository;
@@ -12,6 +17,7 @@ import ro.msg.learning.shop.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService
@@ -25,46 +31,61 @@ public class ProductServiceImpl implements ProductService
     private ProductCategoryRepository productCategoryRepository;
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<ProductWithCategoryDto> getAllProducts() {
         log.info("-----getAllProducts -- method entered");
-        List<Product> products = productRepository.findAll();
+        List<ProductWithCategoryDto> products = productRepository.findAll().stream()
+                .map(ProductWithCategoryMapper::convertModelToDto)
+                .collect(Collectors.toList());
         log.info("-----getAllProducts -- method finished, products = {}", products);
         return products;
     }
 
     @Override
-    public Product getProduct(int productId) {
+    public ProductWithCategoryDto getProduct(int productId) throws ShopException {
         log.info("-----getProduct -- method entered, productId = {}", productId);
-        Product product= productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Invalid product id!"));
+        ProductWithCategoryDto product= ProductWithCategoryMapper.convertModelToDto(productRepository.findById(productId).orElseThrow(() -> new ShopException("productServiceImpl.getProduct: Invalid product id= " + productId + "!")));
         log.info("-----getProduct -- method finished, product = {}", product);
         return product;
     }
 
     @Override
     @Transactional
-    public Product saveProduct(Product newProduct, int categoryId) {
-        log.info("-----saveProduct -- method entered, newProduct = {}, categoryId = {}", newProduct, categoryId);
-        Optional<ProductCategory> optionalProductCategory = this.productCategoryRepository.findById(categoryId);
-        ProductCategory productCategory = optionalProductCategory.orElseThrow(() -> new RuntimeException("Invalid category id!"));
+    public ProductDto saveProduct(ProductDto productDto) throws ShopException {
+        log.info("-----saveProduct -- method entered, newProduct = {}", productDto);
+
+        Optional<ProductCategory> optionalProductCategory = this.productCategoryRepository.findById(productDto.getCategoryId());
+        ProductCategory productCategory = optionalProductCategory.orElseThrow(() -> new ShopException("productServiceImpl.saveProduct: Invalid category id= " + productDto.getCategoryId() + "!"));
+
+        Product newProduct = ProductMapper.convertDtoToProduct(productDto);
+
         newProduct.setProductCategory(productCategory);
         productCategory.addProduct(newProduct);
-        Product savedProduct = productRepository.save(newProduct);
+
+        ProductDto savedProduct = ProductMapper.convertProductToDto(productRepository.save(newProduct));
+
         log.info("-----saveProduct -- method finished, savedProduct = {}", savedProduct);
         return savedProduct;
     }
 
     @Override
     @Transactional
-    public Product updateProduct(int productId, Product product) {
-        log.info("-----updateProduct -- method entered, productId = {}, product = {}", productId, product);
-        Product updatedProduct = productRepository.findById(productId).orElse(product);
+    public ProductDto updateProduct(int productId, ProductDto productDto) throws ShopException {
+        log.info("-----updateProduct -- method entered, productId = {}, product = {}", productId, productDto);
+
+        Product updatedProduct = productRepository.findById(productId).orElseThrow(() -> new ShopException("productServiceImpl.updateProduct: Invalid product id= " + productId + "!"));
+
+        Product product = ProductMapper.convertDtoToProduct(productDto);
+
         updatedProduct.setName(product.getName());
         updatedProduct.setDescription(product.getDescription());
         updatedProduct.setWeight(product.getWeight());
         updatedProduct.setPrice(product.getPrice());
         updatedProduct.setImageUrl(product.getImageUrl());
-        log.info("-----updateProduct -- method finished, updatedProduct = {}", updatedProduct);
-        return updatedProduct;
+
+        ProductDto updatedProductDto = ProductMapper.convertProductToDto(updatedProduct);
+
+        log.info("-----updateProduct -- method finished, updatedProduct = {}", updatedProductDto);
+        return updatedProductDto;
     }
 
     @Override

@@ -1,13 +1,15 @@
 package ro.msg.learning.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ro.msg.learning.shop.converter.ProductWithCategoryMapper;
+import org.springframework.web.server.ResponseStatusException;
+import ro.msg.learning.shop.dto.ProductDto;
 import ro.msg.learning.shop.dto.ProductWithCategoryDto;
+import ro.msg.learning.shop.exception.ShopException;
 import ro.msg.learning.shop.service.ProductService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class ProductController
@@ -17,14 +19,19 @@ public class ProductController
 
     @GetMapping(value = "/products")
     public List<ProductWithCategoryDto> getProducts() {
-        return this.productService.getAllProducts().stream()
-                .map(ProductWithCategoryMapper::convertModelToDto)
-                .collect(Collectors.toList());
+        return this.productService.getAllProducts();
     }
 
     @GetMapping(value = "/products/{id}")
-    public ProductWithCategoryDto getProduct(@PathVariable int id) {
-        return ProductWithCategoryMapper.convertModelToDto(this.productService.getProduct(id));
+    public ProductWithCategoryDto getProduct(@PathVariable int id)
+    {
+        try {
+            return this.productService.getProduct(id);
+        }
+        catch(ShopException exception)
+        {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
+        }
     }
 
     @DeleteMapping("/products/{id}")
@@ -33,21 +40,24 @@ public class ProductController
     }
 
     @PostMapping("/products")
-    public ProductWithCategoryDto saveProduct(@RequestBody ProductWithCategoryDto newProductWithCategory)
-    {
-        return ProductWithCategoryMapper
-                .convertModelToDto(this.productService.saveProduct(
-                        ProductWithCategoryMapper
-                                .convertDtoToProductModel(newProductWithCategory),
-                        newProductWithCategory.getCategoryId()));
+    public ProductDto saveProduct(@RequestBody ProductDto newProductDto){
+        try {
+            return this.productService.saveProduct(newProductDto);
+        }
+        catch(ShopException exception)
+        {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
+        }
     }
 
     @PutMapping("/products/{id}")
-    public ProductWithCategoryDto updateProduct(@PathVariable int id, @RequestBody ProductWithCategoryDto updatedProductDto)
-    {
-        return ProductWithCategoryMapper
-                .convertModelToDto(this.productService.updateProduct(id,
-                        ProductWithCategoryMapper
-                                .convertDtoToProductModel(updatedProductDto)));
+    public ProductDto updateProduct(@PathVariable int id, @RequestBody ProductDto updatedProductDto){
+        try {
+            return this.productService.updateProduct(id, updatedProductDto);
+        }
+        catch(ShopException exception)
+        {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
+        }
     }
 }

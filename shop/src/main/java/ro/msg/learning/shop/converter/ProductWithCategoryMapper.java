@@ -23,28 +23,4 @@ public class ProductWithCategoryMapper
                 .build();
 
     }
-
-    public static Product convertDtoToProductModel(ProductWithCategoryDto dto)
-    {
-        return  Product.builder()
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .price(new BigDecimal(dto.getPrice()))
-                .weight(Double.valueOf(dto.getWeight()))
-                .imageUrl(dto.getImageUrl())
-                .build();
-    }
-
-    public static ProductCategory dtoToProductCategoryModel(ProductWithCategoryDto dto)
-    {
-        ProductCategory productCategory = ProductCategory.builder()
-                .name(dto.getCategoryName())
-                .description(dto.getCategoryDescription())
-                .build();
-
-        productCategory.setId(dto.getCategoryId());
-        return productCategory;
-    }
-
-
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder
-public class ProductWithCategoryDto implements Serializable
+public class ProductDto implements Serializable
 {
     private int id;
     private String name;
@@ -19,8 +19,6 @@ public class ProductWithCategoryDto implements Serializable
     private String price;
     private String weight;
     private String imageUrl;
-
     private int categoryId;
-    private String categoryName;
-    private String categoryDescription;
+    private int supplierId;
 }
