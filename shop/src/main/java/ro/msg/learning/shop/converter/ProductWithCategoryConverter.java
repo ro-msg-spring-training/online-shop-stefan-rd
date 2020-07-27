@@ -6,7 +6,7 @@ import ro.msg.learning.shop.model.ProductCategory;
 
 import java.math.BigDecimal;
 
-public class ProductWithCategoryMapper
+public class ProductWithCategoryConverter
 {
     public static ProductWithCategoryDto convertModelToDto(Product product)
     {

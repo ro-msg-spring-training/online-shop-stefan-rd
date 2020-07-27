@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -36,8 +37,22 @@ public class Order extends BaseEntity<Integer>
     @JoinColumn(name="customer_id")
     private Customer customer;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "correspondingOrder", orphanRemoval = true)
     private Set<OrderDetail> orderDetails;
+
+    public void addDetail(OrderDetail detail)
+    {
+        if(this.orderDetails == null)
+        {
+            this.orderDetails = new HashSet<>();
+        }
+        else
+        {
+            this.orderDetails.add(detail);
+        }
+    }
 
 }

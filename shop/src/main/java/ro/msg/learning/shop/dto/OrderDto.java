@@ -16,8 +16,8 @@ import java.io.Serializable;
 public class OrderDto implements Serializable
 {
     private int id;
-    private LocationDto shippedFrom;
-    private CustomerDto customer;
+    private int locationId;
+    private int customerId;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private String createdAt;

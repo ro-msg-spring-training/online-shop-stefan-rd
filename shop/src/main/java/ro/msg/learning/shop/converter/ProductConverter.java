@@ -1,12 +1,11 @@
 package ro.msg.learning.shop.converter;
 
 import ro.msg.learning.shop.dto.ProductDto;
-import ro.msg.learning.shop.dto.ProductWithCategoryDto;
 import ro.msg.learning.shop.model.Product;
 
 import java.math.BigDecimal;
 
-public class ProductMapper
+public class ProductConverter
 {
     public static Product convertDtoToProduct(ProductDto dto)
     {

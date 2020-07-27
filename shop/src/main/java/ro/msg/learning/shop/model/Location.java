@@ -27,14 +27,20 @@ public class Location extends BaseEntity<Integer>
     })
     private Address address;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "location", orphanRemoval = true)
     private Set<Stock> stocks;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "location", orphanRemoval = true)
     private Set<Revenue> revenues;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "shippedFrom", orphanRemoval = true)
     private Set<Order> orders;

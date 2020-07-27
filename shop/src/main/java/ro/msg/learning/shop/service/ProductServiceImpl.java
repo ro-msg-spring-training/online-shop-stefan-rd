@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ro.msg.learning.shop.converter.ProductMapper;
-import ro.msg.learning.shop.converter.ProductWithCategoryMapper;
+import ro.msg.learning.shop.converter.ProductConverter;
+import ro.msg.learning.shop.converter.ProductWithCategoryConverter;
 import ro.msg.learning.shop.dto.ProductDto;
 import ro.msg.learning.shop.dto.ProductWithCategoryDto;
 import ro.msg.learning.shop.exception.ShopException;
@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService
     public List<ProductWithCategoryDto> getAllProducts() {
         log.info("-----getAllProducts -- method entered");
         List<ProductWithCategoryDto> products = productRepository.findAll().stream()
-                .map(ProductWithCategoryMapper::convertModelToDto)
+                .map(ProductWithCategoryConverter::convertModelToDto)
                 .collect(Collectors.toList());
         log.info("-----getAllProducts -- method finished, products = {}", products);
         return products;
@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService
     @Override
     public ProductWithCategoryDto getProduct(int productId) throws ShopException {
         log.info("-----getProduct -- method entered, productId = {}", productId);
-        ProductWithCategoryDto product= ProductWithCategoryMapper.convertModelToDto(productRepository.findById(productId).orElseThrow(() -> new ShopException("productServiceImpl.getProduct: Invalid product id= " + productId + "!")));
+        ProductWithCategoryDto product= ProductWithCategoryConverter.convertModelToDto(productRepository.findById(productId).orElseThrow(() -> new ShopException("productServiceImpl.getProduct: Invalid product id= " + productId + "!")));
         log.info("-----getProduct -- method finished, product = {}", product);
         return product;
     }
@@ -56,12 +56,12 @@ public class ProductServiceImpl implements ProductService
         Optional<ProductCategory> optionalProductCategory = this.productCategoryRepository.findById(productDto.getCategoryId());
         ProductCategory productCategory = optionalProductCategory.orElseThrow(() -> new ShopException("productServiceImpl.saveProduct: Invalid category id= " + productDto.getCategoryId() + "!"));
 
-        Product newProduct = ProductMapper.convertDtoToProduct(productDto);
+        Product newProduct = ProductConverter.convertDtoToProduct(productDto);
 
         newProduct.setProductCategory(productCategory);
         productCategory.addProduct(newProduct);
 
-        ProductDto savedProduct = ProductMapper.convertProductToDto(productRepository.save(newProduct));
+        ProductDto savedProduct = ProductConverter.convertProductToDto(productRepository.save(newProduct));
 
         log.info("-----saveProduct -- method finished, savedProduct = {}", savedProduct);
         return savedProduct;
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService
 
         Product updatedProduct = productRepository.findById(productId).orElseThrow(() -> new ShopException("productServiceImpl.updateProduct: Invalid product id= " + productId + "!"));
 
-        Product product = ProductMapper.convertDtoToProduct(productDto);
+        Product product = ProductConverter.convertDtoToProduct(productDto);
 
         updatedProduct.setName(product.getName());
         updatedProduct.setDescription(product.getDescription());
@@ -82,7 +82,7 @@ public class ProductServiceImpl implements ProductService
         updatedProduct.setPrice(product.getPrice());
         updatedProduct.setImageUrl(product.getImageUrl());
 
-        ProductDto updatedProductDto = ProductMapper.convertProductToDto(updatedProduct);
+        ProductDto updatedProductDto = ProductConverter.convertProductToDto(updatedProduct);
 
         log.info("-----updateProduct -- method finished, updatedProduct = {}", updatedProductDto);
         return updatedProductDto;

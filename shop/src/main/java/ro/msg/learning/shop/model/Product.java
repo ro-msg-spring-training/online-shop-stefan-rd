@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -45,18 +46,30 @@ public class Product extends BaseEntity<Integer>
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, /*cascade = CascadeType.ALL,*/
+    @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "product"/*, orphanRemoval = true*/)
+            mappedBy = "product", orphanRemoval = true)
     private Set<Stock> stocks;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, /*cascade = CascadeType.ALL,*/
+    @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "product"/*, orphanRemoval = true*/)
+            mappedBy = "product", orphanRemoval = true)
     private Set<OrderDetail> orderDetails;
 
+
+    public void addDetail(OrderDetail detail)
+    {
+        if(this.orderDetails == null)
+        {
+            this.orderDetails = new HashSet<>();
+        }
+        else
+        {
+            this.orderDetails.add(detail);
+        }
+    }
 
 
 }
