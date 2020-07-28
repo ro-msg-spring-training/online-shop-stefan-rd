@@ -17,9 +17,9 @@ public class ProductWithCategoryConverter
                 .price(product.getPrice() != null ? product.getPrice().toString() : "-1")
                 .weight(product.getWeight() != null ? product.getWeight().toString() : "-1")
                 .imageUrl(product.getImageUrl())
-                .categoryId(product.getProductCategory().getId())
-                .categoryName((product.getProductCategory().getName()))
-                .categoryDescription(product.getProductCategory().getDescription())
+                .categoryId(product.getProductCategory() != null ? product.getProductCategory().getId() : -1)
+                .categoryName((product.getProductCategory() != null ? product.getProductCategory().getName() : ""))
+                .categoryDescription(product.getProductCategory() != null ? product.getProductCategory().getDescription() : "")
                 .build();
 
     }
