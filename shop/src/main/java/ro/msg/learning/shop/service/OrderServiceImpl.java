@@ -73,10 +73,6 @@ public class OrderServiceImpl implements OrderService
         List<Location> locations = locationRepository.findAll();
         List<ProductLocationQuantity> strategyResults = strategy.findSuitableLocation(productIdAndQuantity, locations);
         log.info("-----createOrder -- strategy strategyResults: {}", strategyResults);
-        if(strategyResults.isEmpty())
-        {
-            throw new ShopException("orderServiceImpl.createOrder: Could not find suitable location/set of locations!");
-        }
 
         //update stock
         this.updateStocks(strategyResults);

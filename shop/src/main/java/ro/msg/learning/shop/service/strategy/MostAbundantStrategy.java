@@ -1,5 +1,6 @@
 package ro.msg.learning.shop.service.strategy;
 
+import ro.msg.learning.shop.exception.ShopException;
 import ro.msg.learning.shop.model.Location;
 import ro.msg.learning.shop.model.Stock;
 import ro.msg.learning.shop.utils.ProductLocationQuantity;
@@ -12,7 +13,11 @@ import java.util.Map;
 public class MostAbundantStrategy implements Strategy
 {
     @Override
-    public List<ProductLocationQuantity> findSuitableLocation(Map<Integer, Integer> productIdsAndQuantity, List<Location> locations) {
+    public List<ProductLocationQuantity> findSuitableLocation(Map<Integer, Integer> productIdsAndQuantity, List<Location> locations) throws ShopException {
+        if(locations.isEmpty())
+        {
+            throw new ShopException("findSuitableLocation: Empty list of locations!");
+        }
         Map<Integer, ProductLocationQuantity> results = new HashMap<>();
         for(Map.Entry<Integer, Integer> productIdAndQuantity: productIdsAndQuantity.entrySet())
         {
@@ -33,7 +38,7 @@ public class MostAbundantStrategy implements Strategy
         {
             if(results.get(productIdAndQuantity.getKey()).getQuantity() < productIdAndQuantity.getValue())
             {
-                return new ArrayList<>();
+                throw new ShopException("findSuitableLocation: Could not find a suitable set of locations!");
             }
             else
             {

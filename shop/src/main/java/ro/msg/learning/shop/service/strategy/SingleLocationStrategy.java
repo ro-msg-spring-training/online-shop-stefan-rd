@@ -1,5 +1,6 @@
 package ro.msg.learning.shop.service.strategy;
 
+import ro.msg.learning.shop.exception.ShopException;
 import ro.msg.learning.shop.model.Location;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.Stock;
@@ -13,8 +14,12 @@ import java.util.stream.Collectors;
 public class SingleLocationStrategy implements Strategy
 {
     @Override
-    public List<ProductLocationQuantity> findSuitableLocation(Map<Integer, Integer> productIdsAndQuantity, List<Location> locations) {
+    public List<ProductLocationQuantity> findSuitableLocation(Map<Integer, Integer> productIdsAndQuantity, List<Location> locations) throws ShopException {
         List<ProductLocationQuantity> results = new ArrayList<>();
+        if(locations.isEmpty())
+        {
+            throw new ShopException("findSuitableLocation: Empty list of locations!");
+        }
         for(Location location : locations)
         {
             Map<Product, Integer> productWithStock = location.getStocks().stream()
@@ -44,6 +49,6 @@ public class SingleLocationStrategy implements Strategy
                 return results;
             }
         }
-        return results;
+        throw new ShopException("findSuitableLocation: Could not find a suitable location!");
     }
 }

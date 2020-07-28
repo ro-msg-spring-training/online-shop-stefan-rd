@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Transactional;
 import ro.msg.learning.shop.model.*;
@@ -28,13 +30,14 @@ public class ShopApplication {
 		SpringApplication.run(ShopApplication.class, args);
 	}
 
+
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
-		/*String[] beans = appContext.getBeanDefinitionNames();
+		String[] beans = appContext.getBeanDefinitionNames();
 		Arrays.sort(beans);
 		for (String bean : beans) {
 			System.out.println(bean);
-		}*/
+		}
 
 	}
 }
