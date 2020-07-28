@@ -45,7 +45,7 @@ class StrategyUnitTest
     }
 
     @Test
-    public void mostAbundant_notEnoughStock_ExceptionThrown()
+    public void mostAbundant_notEnoughStock_exceptionThrown()
     {
         Product product1 = new Product();
         product1.setId(1);
@@ -81,13 +81,13 @@ class StrategyUnitTest
     }
 
     @Test
-    public void mostAbundant_emptyLocationList_ExceptionThrown()
+    public void mostAbundant_emptyLocationList_exceptionThrown()
     {
         Assert.assertThrows(ShopException.class, () -> this.mostAbundant.findSuitableLocation(productIdsAndQuantity, locations));
     }
 
     @Test
-    public void mostAbundant_suitableLocations_Computed() {
+    public void mostAbundant_suitableLocations_locationsFound() {
         Product product1 = new Product();
         product1.setId(1);
         Product product2 = new Product();
@@ -136,7 +136,7 @@ class StrategyUnitTest
 
 
     @Test
-    public void singleLocation_suitableLocation_Computed()
+    public void singleLocation_suitableLocation_locationFound()
     {
         Product product1 = new Product();
         product1.setId(1);
@@ -201,7 +201,7 @@ class StrategyUnitTest
     }
 
     @Test
-    public void singleLocation_notEnoughStock_ExceptionThrown()
+    public void singleLocation_notEnoughStock_exceptionThrown()
     {
         Product product1 = new Product();
         product1.setId(1);
@@ -239,7 +239,7 @@ class StrategyUnitTest
     }
 
     @Test
-    public void singleLocation_emptyLocationList_ExceptionThrown()
+    public void singleLocation_emptyLocationList_exceptionThrown()
     {
         Assert.assertThrows(ShopException.class, () -> this.singleLocation.findSuitableLocation(productIdsAndQuantity, locations));
     }
