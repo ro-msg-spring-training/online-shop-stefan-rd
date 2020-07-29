@@ -24,7 +24,7 @@ public class Customer extends BaseEntity<Integer>
     @Column(name  = "username", unique = true, length = 50)
     private String username;
 
-    @Column(name  = "password", length = 50)
+    @Column(name  = "password", length = 100)
     private String password;
 
     @Column(name  = "email_address", unique = true, length = 50)

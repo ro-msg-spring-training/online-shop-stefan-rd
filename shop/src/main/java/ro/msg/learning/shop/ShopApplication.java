@@ -33,11 +33,11 @@ public class ShopApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
-		/*String[] beans = appContext.getBeanDefinitionNames();
+		String[] beans = appContext.getBeanDefinitionNames();
 		Arrays.sort(beans);
 		for (String bean : beans) {
 			System.out.println(bean);
-		}*/
+		}
 
 	}
 }

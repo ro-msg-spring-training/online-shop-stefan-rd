@@ -4,7 +4,7 @@ create table "customer"
     "first_name" varchar(20),
     "last_name" varchar(20),
     "username" varchar(50) unique,
-    "password" varchar(50),
+    "password" varchar(100),
     "email_address" varchar(50) unique
 );
 
