@@ -22,13 +22,13 @@ public class ProductConverter
     {
         return ProductDto.builder()
                 .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
+                .name(product.getName()!= null ? product.getName() : "")
+                .description(product.getDescription()!= null ? product.getDescription() : "")
                 .price(product.getPrice() != null ? product.getPrice().toString() : "-1")
                 .weight(product.getWeight() != null ? product.getWeight().toString() : "-1")
-                .imageUrl(product.getImageUrl())
-                .supplierId(product.getSupplier().getId())
-                .categoryId(product.getProductCategory().getId())
+                .imageUrl(product.getImageUrl()!= null ? product.getImageUrl() : "")
+                .supplierId(product.getSupplier()!= null ? product.getSupplier().getId() : -1)
+                .categoryId(product.getProductCategory() != null ? product.getProductCategory().getId() : -1)
                 .build();
     }
 

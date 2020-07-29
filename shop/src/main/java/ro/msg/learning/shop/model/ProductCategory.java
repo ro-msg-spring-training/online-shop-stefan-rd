@@ -34,6 +34,7 @@ public class ProductCategory extends BaseEntity<Integer>
         if(this.products == null)
         {
             this.products = new HashSet<>();
+            this.products.add(product);
         }
         else
         {

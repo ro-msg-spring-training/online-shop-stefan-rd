@@ -1,9 +1,8 @@
-package ro.msg.learning.shop.controller;
+package ro.msg.learning.shop.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
-import ro.msg.learning.shop.service.TestService;
 
 @RestController
 @Profile("test")

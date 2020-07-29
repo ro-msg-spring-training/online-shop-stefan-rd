@@ -38,7 +38,7 @@ public class MostAbundantStrategy implements Strategy
         {
             if(results.get(productIdAndQuantity.getKey()).getQuantity() < productIdAndQuantity.getValue())
             {
-                throw new ShopException("findSuitableLocation: Could not find a suitable set of locations!");
+                throw new ShopException("findSuitableLocation: Could not find a suitable set of locations due to insufficient stock!");
             }
             else
             {

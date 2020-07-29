@@ -91,8 +91,8 @@ class OrderCreationIntegrationTest
                     .address(new AddressDto())
                     .products(products)
                     .build());
-            System.out.println(order);
-            System.out.println(this.orderDetailRepository.findAll());
+            Assert.assertEquals( 1, order.getId());
+            Assert.assertEquals( 2, this.orderDetailRepository.findAll().size());
         }
         catch(ShopException shopException)
         {

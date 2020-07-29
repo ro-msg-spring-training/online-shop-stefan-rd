@@ -48,6 +48,7 @@ public class Order extends BaseEntity<Integer>
         if(this.orderDetails == null)
         {
             this.orderDetails = new HashSet<>();
+            this.orderDetails.add(detail);
         }
         else
         {

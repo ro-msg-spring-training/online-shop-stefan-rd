@@ -23,4 +23,6 @@ public class OrderDto implements Serializable
     private String createdAt;
 
     private AddressDto address;
+
+    private OrderDetailDto[] orderDetails;
 }

@@ -1,4 +1,4 @@
-package ro.msg.learning.shop.service;
+package ro.msg.learning.shop.test;
 
 public interface TestService
 {

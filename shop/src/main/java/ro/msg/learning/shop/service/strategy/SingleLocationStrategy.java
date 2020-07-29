@@ -49,6 +49,6 @@ public class SingleLocationStrategy implements Strategy
                 return results;
             }
         }
-        throw new ShopException("findSuitableLocation: Could not find a suitable location!");
+        throw new ShopException("findSuitableLocation: Could not find a suitable location due to insufficient stock!");
     }
 }
