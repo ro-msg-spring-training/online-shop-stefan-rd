@@ -1,7 +1,6 @@
 package ro.msg.learning.shop.test;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +22,6 @@ import ro.msg.learning.shop.repository.StockRepository;
 import ro.msg.learning.shop.service.OrderService;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 

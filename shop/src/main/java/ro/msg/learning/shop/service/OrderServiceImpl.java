@@ -22,8 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderServiceImpl implements OrderService
-{
+public class OrderServiceImpl implements OrderService {
     public static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -52,8 +51,7 @@ public class OrderServiceImpl implements OrderService
 
         //create dictionary with product id as key and quantity as value using the values inside the OrderCreationDto
         Map<Integer, Integer> productIdAndQuantity = new HashMap<>();
-        for(ProductIdAndQuantityDto productIdAndQuantityDto : newOrder.getProducts())
-        {
+        for (ProductIdAndQuantityDto productIdAndQuantityDto : newOrder.getProducts()) {
             productIdAndQuantity.put(productIdAndQuantityDto.getProductId(), productIdAndQuantityDto.getQuantity());
         }
 
@@ -61,10 +59,8 @@ public class OrderServiceImpl implements OrderService
         List<Integer> existingProducts = this.productRepository.findAll().stream()
                 .map(BaseEntity::getId)
                 .collect(Collectors.toList());
-        for(Integer productId : productIdAndQuantity.keySet())
-        {
-            if(!existingProducts.contains(productId))
-            {
+        for (Integer productId : productIdAndQuantity.keySet()) {
+            if (!existingProducts.contains(productId)) {
                 throw new ShopException("orderServiceImpl.createOrder: Unknown product ID(s)!");
             }
         }
@@ -87,8 +83,7 @@ public class OrderServiceImpl implements OrderService
     public void updateStocks(List<ProductLocationQuantity> strategyResults) throws ShopException {
         log.info("-----updateStocks -- method entered, strategyResults = {}", strategyResults);
 
-        for(ProductLocationQuantity result : strategyResults)
-        {
+        for (ProductLocationQuantity result : strategyResults) {
             Product product = this.productRepository.findById(result.getProductId()).orElseThrow(() -> new ShopException("orderServiceImpl.updateStocks: Invalid product id!"));
             Location location = this.locationRepository.findById(result.getLocationId()).orElseThrow(() -> new ShopException("orderServiceImpl.updateStocks: Invalid location id!"));
             Stock stock = this.stockRepository.findByProductAndLocation(product, location).orElseThrow(() -> new ShopException("orderServiceImpl.updateStocks: Stock does not exist!"));
@@ -111,8 +106,7 @@ public class OrderServiceImpl implements OrderService
                 .build();
         order = this.orderRepository.save(order);
 
-        for(ProductLocationQuantity result: strategyResults)
-        {
+        for (ProductLocationQuantity result : strategyResults) {
             Product product = this.productRepository.findById(result.getProductId()).orElseThrow(() -> new ShopException("orderServiceImpl.updateStocks: Invalid product id!"));
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setCorrespondingOrder(order);

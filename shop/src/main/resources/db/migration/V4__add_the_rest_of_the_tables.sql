@@ -42,4 +42,7 @@ create table "order_detail"
     "order_id" int references "customer_order"("id"),
     "product_id" int references "product"("id"),
     "quantity" int
-)
+);
+
+insert into customer(username, password)
+values('a', '$2y$12$ZMpfYUglbF62IdFnILdd1eLa90uB7wbnCuN/DDcAjFzU6nSLKSoty');
