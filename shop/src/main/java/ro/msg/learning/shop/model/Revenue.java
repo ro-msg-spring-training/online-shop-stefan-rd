@@ -14,8 +14,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "revenue")
-public class Revenue  extends BaseEntity<Integer>
-{
+public class Revenue extends BaseEntity<Integer> {
     @Column(name = "date")
     private LocalDate date;
 
@@ -23,7 +22,7 @@ public class Revenue  extends BaseEntity<Integer>
     private BigDecimal sum;
 
     @ManyToOne
-    @JoinColumn(name="location_id")
+    @JoinColumn(name = "location_id")
     private Location location;
 
 }

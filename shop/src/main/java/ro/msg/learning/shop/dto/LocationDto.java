@@ -11,8 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder
-public class LocationDto implements Serializable
-{
+public class LocationDto implements Serializable {
     private int id;
     private String name;
     private AddressDto address;

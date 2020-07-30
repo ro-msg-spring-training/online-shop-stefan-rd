@@ -6,7 +6,6 @@ import ro.msg.learning.shop.model.Customer;
 import java.util.Optional;
 
 @Repository
-public interface CustomerRepository extends BaseRepository<Customer, Integer>
-{
+public interface CustomerRepository extends BaseRepository<Customer, Integer> {
     Optional<Customer> findByUsername(String username);
 }

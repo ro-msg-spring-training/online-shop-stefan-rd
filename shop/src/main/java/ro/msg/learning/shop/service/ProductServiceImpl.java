@@ -1,12 +1,9 @@
 package ro.msg.learning.shop.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ro.msg.learning.shop.converter.ProductConverter;
-import ro.msg.learning.shop.converter.ProductWithCategoryConverter;
 import ro.msg.learning.shop.dto.ProductDto;
 import ro.msg.learning.shop.dto.ProductWithCategoryDto;
 import ro.msg.learning.shop.exception.ShopException;
@@ -19,22 +16,25 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
-public class ProductServiceImpl implements ProductService
-{
-    public static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
+public class ProductServiceImpl implements ProductService {
+
+    private final ProductRepository productRepository;
+
+    private final ProductCategoryRepository productCategoryRepository;
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ProductCategoryRepository productCategoryRepository;
+    public ProductServiceImpl(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository) {
+        this.productCategoryRepository = productCategoryRepository;
+        this.productRepository = productRepository;
+    }
 
     @Override
     public List<ProductWithCategoryDto> getAllProducts() {
         log.info("-----getAllProducts -- method entered");
         List<ProductWithCategoryDto> products = productRepository.findAll().stream()
-                .map(ProductWithCategoryConverter::convertModelToDto)
+                .map(ProductWithCategoryDto::convertModelToDto)
                 .collect(Collectors.toList());
         log.info("-----getAllProducts -- method finished, products = {}", products);
         return products;
@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService
     @Override
     public ProductWithCategoryDto getProduct(int productId) throws ShopException {
         log.info("-----getProduct -- method entered, productId = {}", productId);
-        ProductWithCategoryDto product= ProductWithCategoryConverter.convertModelToDto(productRepository.findById(productId).orElseThrow(() -> new ShopException("productServiceImpl.getProduct: Invalid product id= " + productId + "!")));
+        ProductWithCategoryDto product = ProductWithCategoryDto.convertModelToDto(productRepository.findById(productId).orElseThrow(() -> new ShopException("productServiceImpl.getProduct: Invalid product id= " + productId + "!")));
         log.info("-----getProduct -- method finished, product = {}", product);
         return product;
     }
@@ -56,12 +56,12 @@ public class ProductServiceImpl implements ProductService
         Optional<ProductCategory> optionalProductCategory = this.productCategoryRepository.findById(productDto.getCategoryId());
         ProductCategory productCategory = optionalProductCategory.orElseThrow(() -> new ShopException("productServiceImpl.saveProduct: Invalid category id= " + productDto.getCategoryId() + "!"));
 
-        Product newProduct = ProductConverter.convertDtoToProduct(productDto);
+        Product newProduct = ProductDto.convertDtoToProduct(productDto);
 
         newProduct.setProductCategory(productCategory);
         productCategory.addProduct(newProduct);
 
-        ProductDto savedProduct = ProductConverter.convertProductToDto(productRepository.save(newProduct));
+        ProductDto savedProduct = ProductDto.convertProductToDto(productRepository.save(newProduct));
 
         log.info("-----saveProduct -- method finished, savedProduct = {}", savedProduct);
         return savedProduct;
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService
 
         Product updatedProduct = productRepository.findById(productId).orElseThrow(() -> new ShopException("productServiceImpl.updateProduct: Invalid product id= " + productId + "!"));
 
-        Product product = ProductConverter.convertDtoToProduct(productDto);
+        Product product = ProductDto.convertDtoToProduct(productDto);
 
         updatedProduct.setName(product.getName());
         updatedProduct.setDescription(product.getDescription());
@@ -82,7 +82,7 @@ public class ProductServiceImpl implements ProductService
         updatedProduct.setPrice(product.getPrice());
         updatedProduct.setImageUrl(product.getImageUrl());
 
-        ProductDto updatedProductDto = ProductConverter.convertProductToDto(updatedProduct);
+        ProductDto updatedProductDto = ProductDto.convertProductToDto(updatedProduct);
 
         log.info("-----updateProduct -- method finished, updatedProduct = {}", updatedProductDto);
         return updatedProductDto;
@@ -93,8 +93,7 @@ public class ProductServiceImpl implements ProductService
     public void deleteProduct(int productId) {
         log.info("-----deleteProduct -- method entered, productId = {}", productId);
         Optional<Product> optionalProduct = this.productRepository.findById(productId);
-        if(optionalProduct.isPresent())
-        {
+        if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
             ProductCategory productCategory = product.getProductCategory();
             productCategory.removeProduct(product);

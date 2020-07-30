@@ -15,26 +15,25 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "customer_order")
-public class Order extends BaseEntity<Integer>
-{
+public class Order extends BaseEntity<Integer> {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride( name = "country", column = @Column(name = "country", length = 20)),
-            @AttributeOverride( name = "city", column = @Column(name = "city", length = 20)),
-            @AttributeOverride( name = "county", column = @Column(name = "county", length = 20)),
-            @AttributeOverride( name = "streetAddress", column = @Column(name = "street_address", length = 50))
+            @AttributeOverride(name = "country", column = @Column(name = "country", length = 20)),
+            @AttributeOverride(name = "city", column = @Column(name = "city", length = 20)),
+            @AttributeOverride(name = "county", column = @Column(name = "county", length = 20)),
+            @AttributeOverride(name = "streetAddress", column = @Column(name = "street_address", length = 50))
     })
     private Address address;
 
     @ManyToOne
-    @JoinColumn(name="shipped_from")
+    @JoinColumn(name = "shipped_from")
     private Location shippedFrom;
 
     @ManyToOne
-    @JoinColumn(name="customer_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @ToString.Exclude
@@ -43,15 +42,11 @@ public class Order extends BaseEntity<Integer>
             mappedBy = "correspondingOrder", orphanRemoval = true)
     private Set<OrderDetail> orderDetails;
 
-    public void addDetail(OrderDetail detail)
-    {
-        if(this.orderDetails == null)
-        {
+    public void addDetail(OrderDetail detail) {
+        if (this.orderDetails == null) {
             this.orderDetails = new HashSet<>();
             this.orderDetails.add(detail);
-        }
-        else
-        {
+        } else {
             this.orderDetails.add(detail);
         }
     }

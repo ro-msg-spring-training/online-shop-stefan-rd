@@ -1,6 +1,5 @@
 package ro.msg.learning.shop.model;
 
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,48 +8,41 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
 public class User implements UserDetails {
 
-    private String username;
-    private String password;
+    private Customer customer;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
+    private String role;
 
-    public User() {
+    public User(Customer customer, String role) {
         this.accountNonExpired = true;
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
+        this.customer = customer;
+        this.role = role;
     }
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("user"));
+        authorities.add(new SimpleGrantedAuthority(this.role));
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return this.password;
+        return this.customer.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.username;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
-
-    public void setUsername(String username)
-    {
-        this.username = username;
+        return this.customer.getUsername();
     }
 
     @Override
@@ -76,8 +68,9 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "username='" + this.customer.getUsername() + '\'' +
+                ", password='" + this.customer.getPassword() + '\'' +
+                ", roles='" + this.getAuthorities() + '\'' +
                 '}';
     }
 }

@@ -13,17 +13,16 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "location")
-public class Location extends BaseEntity<Integer>
-{
-    @Column(name  = "name", unique = true, length = 50)
+public class Location extends BaseEntity<Integer> {
+    @Column(name = "name", unique = true, length = 50)
     private String name;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride( name = "country", column = @Column(name = "country", length = 20)),
-            @AttributeOverride( name = "city", column = @Column(name = "city", length = 20)),
-            @AttributeOverride( name = "county", column = @Column(name = "county", length = 20)),
-            @AttributeOverride( name = "streetAddress", column = @Column(name = "street_address", length = 50))
+            @AttributeOverride(name = "country", column = @Column(name = "country", length = 20)),
+            @AttributeOverride(name = "city", column = @Column(name = "city", length = 20)),
+            @AttributeOverride(name = "county", column = @Column(name = "county", length = 20)),
+            @AttributeOverride(name = "streetAddress", column = @Column(name = "street_address", length = 50))
     })
     private Address address;
 

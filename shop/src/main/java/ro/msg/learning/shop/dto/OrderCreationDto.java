@@ -12,9 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder
-public class OrderCreationDto implements Serializable
-{
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+public class OrderCreationDto implements Serializable {
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private String createdAt;
     private AddressDto address;
     private ProductIdAndQuantityDto[] products;

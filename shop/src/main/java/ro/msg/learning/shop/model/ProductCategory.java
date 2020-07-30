@@ -15,8 +15,7 @@ import java.util.Set;
 @Entity
 
 @Table(name = "product_category")
-public class ProductCategory extends BaseEntity<Integer>
-{
+public class ProductCategory extends BaseEntity<Integer> {
     @Column(name = "name", unique = true, length = 50)
     private String name;
 
@@ -29,21 +28,16 @@ public class ProductCategory extends BaseEntity<Integer>
             mappedBy = "productCategory", orphanRemoval = true)
     private Set<Product> products;
 
-    public void addProduct(Product product)
-    {
-        if(this.products == null)
-        {
+    public void addProduct(Product product) {
+        if (this.products == null) {
             this.products = new HashSet<>();
             this.products.add(product);
-        }
-        else
-        {
+        } else {
             this.products.add(product);
         }
     }
 
-    public void removeProduct(Product product)
-    {
+    public void removeProduct(Product product) {
         this.products.remove(product);
     }
 }

@@ -8,19 +8,16 @@ import ro.msg.learning.shop.service.strategy.SingleLocationStrategy;
 import ro.msg.learning.shop.service.strategy.Strategy;
 
 @Configuration
-public class StrategyConfiguration
-{
+public class StrategyConfiguration {
     @ConditionalOnProperty(prefix = "user", name = "locationStrategy", havingValue = "mostAbundant", matchIfMissing = false)
     @Bean
-    public Strategy mostAbundantStrategy()
-    {
+    public Strategy mostAbundantStrategy() {
         return new MostAbundantStrategy();
     }
 
     @ConditionalOnProperty(prefix = "user", name = "locationStrategy", havingValue = "singleLocation", matchIfMissing = true)
     @Bean
-    public Strategy singleLocationStrategy()
-    {
+    public Strategy singleLocationStrategy() {
         return new SingleLocationStrategy();
     }
 }

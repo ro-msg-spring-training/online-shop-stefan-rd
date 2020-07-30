@@ -9,21 +9,23 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity()
 @ConditionalOnProperty(prefix = "security", name = "type", havingValue = "withForm", matchIfMissing = false)
-public class FormSecurityConfiguration extends WebSecurityConfigurerAdapter
-{
+public class FormSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    public FormSecurityConfiguration(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
     @Override
@@ -35,20 +37,21 @@ public class FormSecurityConfiguration extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .anyRequest().authenticated()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/**").hasRole(String.valueOf(new SimpleGrantedAuthority("CUSTOMER")))
                 .and()
                 .formLogin()
-                    //.loginPage("/login")
-                    .permitAll()
-                    .and()
+                //.loginPage("/login")
+                .permitAll()
+                .and()
                 .logout()
-                    .permitAll()
+                .permitAll()
                 .and()
                 .csrf().disable();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(userDetailsService);

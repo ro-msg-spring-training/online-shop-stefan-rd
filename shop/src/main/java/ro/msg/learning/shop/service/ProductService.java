@@ -6,8 +6,7 @@ import ro.msg.learning.shop.exception.ShopException;
 
 import java.util.List;
 
-public interface ProductService
-{
+public interface ProductService {
     List<ProductWithCategoryDto> getAllProducts();
 
     ProductWithCategoryDto getProduct(int productId) throws ShopException;

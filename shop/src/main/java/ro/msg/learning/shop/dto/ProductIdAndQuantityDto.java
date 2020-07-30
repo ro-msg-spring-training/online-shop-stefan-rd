@@ -11,8 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder
-public class ProductIdAndQuantityDto implements Serializable
-{
+public class ProductIdAndQuantityDto implements Serializable {
     private int productId;
     private int quantity;
 }

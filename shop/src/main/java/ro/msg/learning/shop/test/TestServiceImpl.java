@@ -7,32 +7,37 @@ import ro.msg.learning.shop.model.Location;
 import ro.msg.learning.shop.model.Product;
 import ro.msg.learning.shop.model.Stock;
 import ro.msg.learning.shop.repository.*;
+import ro.msg.learning.shop.service.strategy.Strategy;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 @Profile("test")
-public class TestServiceImpl implements TestService{
+public class TestServiceImpl implements TestService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
-    @Autowired
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
+    private final OrderDetailRepository orderDetailRepository;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    private OrderDetailRepository orderDetailRepository;
+    public TestServiceImpl(Strategy strategy, LocationRepository locationRepository, OrderRepository orderRepository, ProductRepository productRepository, StockRepository stockRepository, OrderDetailRepository orderDetailRepository) {
+        this.locationRepository = locationRepository;
+        this.productRepository = productRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.orderRepository = orderRepository;
+        this.stockRepository = stockRepository;
+    }
 
     @Override
-    public void populate()
-    {
+    public void populate() {
         Product product1 = this.productRepository.save(new Product());
         Product product2 = this.productRepository.save(new Product());
 
@@ -48,8 +53,7 @@ public class TestServiceImpl implements TestService{
     }
 
     @Override
-    public void clear()
-    {
+    public void clear() {
         this.orderDetailRepository.deleteAll();
         this.orderRepository.deleteAll();
         this.stockRepository.deleteAll();

@@ -8,6 +8,6 @@ import ro.msg.learning.shop.model.Stock;
 import java.util.Optional;
 
 @Repository
-public interface StockRepository extends BaseRepository<Stock, Integer>{
+public interface StockRepository extends BaseRepository<Stock, Integer> {
     Optional<Stock> findByProductAndLocation(Product product, Location location);
 }

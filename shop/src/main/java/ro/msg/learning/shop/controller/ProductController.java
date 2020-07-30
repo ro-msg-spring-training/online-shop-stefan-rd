@@ -2,6 +2,7 @@ package ro.msg.learning.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.msg.learning.shop.dto.ProductDto;
@@ -12,24 +13,24 @@ import ro.msg.learning.shop.service.ProductService;
 import java.util.List;
 
 @RestController
-public class ProductController
-{
+public class ProductController {
+    private final ProductService productService;
+
     @Autowired
-    private ProductService productService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping(value = "/products")
-    public List<ProductWithCategoryDto> getProducts() {
-        return this.productService.getAllProducts();
+    public ResponseEntity<List<ProductWithCategoryDto>> getProducts() {
+        return new ResponseEntity<>(this.productService.getAllProducts(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/products/{id}")
-    public ProductWithCategoryDto getProduct(@PathVariable int id)
-    {
+    public ResponseEntity<ProductWithCategoryDto> getProduct(@PathVariable int id) {
         try {
-            return this.productService.getProduct(id);
-        }
-        catch(ShopException exception)
-        {
+            return new ResponseEntity<>(this.productService.getProduct(id), HttpStatus.OK);
+        } catch (ShopException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
         }
     }
@@ -40,23 +41,19 @@ public class ProductController
     }
 
     @PostMapping("/products")
-    public ProductDto saveProduct(@RequestBody ProductDto newProductDto){
+    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto newProductDto) {
         try {
-            return this.productService.saveProduct(newProductDto);
-        }
-        catch(ShopException exception)
-        {
+            return new ResponseEntity<>(this.productService.saveProduct(newProductDto), HttpStatus.OK);
+        } catch (ShopException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
         }
     }
 
     @PutMapping("/products/{id}")
-    public ProductDto updateProduct(@PathVariable int id, @RequestBody ProductDto updatedProductDto){
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable int id, @RequestBody ProductDto updatedProductDto) {
         try {
-            return this.productService.updateProduct(id, updatedProductDto);
-        }
-        catch(ShopException exception)
-        {
+            return new ResponseEntity<>(this.productService.updateProduct(id, updatedProductDto), HttpStatus.OK);
+        } catch (ShopException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
         }
     }

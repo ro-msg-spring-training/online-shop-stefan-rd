@@ -13,21 +13,20 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "customer")
-public class Customer extends BaseEntity<Integer>
-{
-    @Column(name  = "first_name", length = 20)
+public class Customer extends BaseEntity<Integer> {
+    @Column(name = "first_name", length = 20)
     private String firstName;
 
-    @Column(name  = "last_name", length = 20)
+    @Column(name = "last_name", length = 20)
     private String lastName;
 
-    @Column(name  = "username", unique = true, length = 50)
+    @Column(name = "username", unique = true, length = 50)
     private String username;
 
-    @Column(name  = "password", length = 100)
+    @Column(name = "password", length = 100)
     private String password;
 
-    @Column(name  = "email_address", unique = true, length = 50)
+    @Column(name = "email_address", unique = true, length = 50)
     private String emailAddress;
 
     @OneToMany(cascade = CascadeType.ALL,

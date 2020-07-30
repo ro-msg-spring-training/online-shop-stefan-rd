@@ -12,8 +12,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Data
 @Builder
-public class Address
-{
+public class Address {
     private String country;
     private String city;
     private String county;

@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class ProductLocationQuantity
-{
+public class ProductLocationQuantity {
     private int productId;
     private int locationId;
     private int quantity;

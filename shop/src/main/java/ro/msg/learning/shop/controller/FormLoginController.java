@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @ConditionalOnProperty(prefix = "security", name = "type", havingValue = "withForm", matchIfMissing = false)
-public class FormLoginController
-{
+public class FormLoginController {
     @GetMapping("/login")
     public String login() {
         return "login";

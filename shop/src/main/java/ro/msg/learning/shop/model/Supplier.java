@@ -13,8 +13,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "supplier")
-public class Supplier extends BaseEntity<Integer>
-{
+public class Supplier extends BaseEntity<Integer> {
     @Column(name = "name", unique = true, length = 50)
     private String name;
 

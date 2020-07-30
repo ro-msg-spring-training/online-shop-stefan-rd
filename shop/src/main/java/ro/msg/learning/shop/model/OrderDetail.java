@@ -12,16 +12,15 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "order_detail")
-public class OrderDetail extends BaseEntity<Integer>
-{
+public class OrderDetail extends BaseEntity<Integer> {
     @Column(name = "quantity")
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name="order_id")
+    @JoinColumn(name = "order_id")
     private Order correspondingOrder;
 
     @ManyToOne
-    @JoinColumn(name="product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
 }

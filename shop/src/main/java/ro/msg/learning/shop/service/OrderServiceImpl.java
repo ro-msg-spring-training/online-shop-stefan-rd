@@ -1,12 +1,10 @@
 package ro.msg.learning.shop.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ro.msg.learning.shop.converter.AddressConverter;
-import ro.msg.learning.shop.converter.OrderConverter;
+import ro.msg.learning.shop.dto.AddressDto;
 import ro.msg.learning.shop.dto.OrderCreationDto;
 import ro.msg.learning.shop.dto.OrderDto;
 import ro.msg.learning.shop.dto.ProductIdAndQuantityDto;
@@ -18,31 +16,36 @@ import ro.msg.learning.shop.utils.ProductLocationQuantity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
-    public static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
+    private final Strategy strategy;
+
+    private final LocationRepository locationRepository;
+
+    private final OrderRepository orderRepository;
+
+    private final ProductRepository productRepository;
+
+    private final StockRepository stockRepository;
+
+    private final OrderDetailRepository orderDetailRepository;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    private Strategy strategy;
-
-    @Autowired
-    private LocationRepository locationRepository;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private StockRepository stockRepository;
-
-    @Autowired
-    private OrderDetailRepository orderDetailRepository;
+    public OrderServiceImpl(Strategy strategy, LocationRepository locationRepository, OrderRepository orderRepository, ProductRepository productRepository, StockRepository stockRepository, OrderDetailRepository orderDetailRepository) {
+        this.strategy = strategy;
+        this.locationRepository = locationRepository;
+        this.productRepository = productRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.orderRepository = orderRepository;
+        this.stockRepository = stockRepository;
+    }
 
     @Transactional
     @Override
@@ -99,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime createdAt = LocalDateTime.parse(newOrder.getCreatedAt(), formatter);
-        Address address = AddressConverter.convertDtoToAddress(newOrder.getAddress());
+        Address address = AddressDto.convertDtoToAddress(newOrder.getAddress());
         Order order = Order.builder()
                 .address(address)
                 .createdAt(createdAt)
@@ -118,6 +121,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
         log.info("-----saveOrder -- method finished");
-        return OrderConverter.convertOrderToDto(order);
+        return OrderDto.convertOrderToDto(order);
     }
 }

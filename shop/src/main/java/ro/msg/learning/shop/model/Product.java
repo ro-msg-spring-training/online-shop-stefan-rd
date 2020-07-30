@@ -15,8 +15,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "product")
-public class Product extends BaseEntity<Integer>
-{
+public class Product extends BaseEntity<Integer> {
     @Column(name = "name", length = 50)
     private String name;
 
@@ -35,13 +34,13 @@ public class Product extends BaseEntity<Integer>
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    @JoinColumn(name="category_id")
+    @JoinColumn(name = "category_id")
     private ProductCategory productCategory;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    @JoinColumn(name="supplier_id")
+    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
     @ToString.Exclude
@@ -59,15 +58,11 @@ public class Product extends BaseEntity<Integer>
     private Set<OrderDetail> orderDetails;
 
 
-    public void addDetail(OrderDetail detail)
-    {
-        if(this.orderDetails == null)
-        {
+    public void addDetail(OrderDetail detail) {
+        if (this.orderDetails == null) {
             this.orderDetails = new HashSet<>();
             this.orderDetails.add(detail);
-        }
-        else
-        {
+        } else {
             this.orderDetails.add(detail);
         }
     }
