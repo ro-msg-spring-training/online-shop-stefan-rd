@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity()
-@ConditionalOnProperty(prefix = "security", name = "type", havingValue = "withBasic", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "security", name = "type", havingValue = "withBasic", matchIfMissing = false)
 public class BasicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
